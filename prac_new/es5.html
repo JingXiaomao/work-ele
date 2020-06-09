@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+//    构造函数或者类名称首字母都要大写
+    function Foo(){
+        this.name = 'hello';
+        this.showName = function(){
+            console.log(this.name);
+        };
+        return this;//可写可不写
+    }
+    var obj = new Foo();
+    obj.showName();//hello
+
+*/
+    /*
+//传参
+    function Foo(name){
+        this.name = name;
+        this.showName = function(){
+            console.log(this.name);
+        };
+    }
+    var obj = new Foo('hello');
+    obj.showName();//hello
+    var obj2 = new Foo('hi');
+    obj2.showName();//hi
+//    但是************
+    console.log(obj.showName == obj2.showName);//false
+
+//    此为系统自带的构造函数
+    var obj = new Object();
+    obj.name = 'hello';
+    obj.showName = function(){}
+
+//    或者
+    var obj = {
+        name : 'hello',
+        showName : function(){}
+    }
+
+    obj.showName()
+
+
+    var str1 = 'hello';var str2 = 'hello';
+    console.log(str1 == str2);//true
+
+    var obj1 = {};var obj2 = {};
+    console.log(obj1 == obj2);//false
+
+    var obj = {name:'hello'};var obj3 = obj;
+    //此时obj3完全等于obj，改变obj3值的时候obj也会发生一样的改变
+
+//    浅拷贝
+    var obj = {name:'hello'};
+    var obj2 = copy(obj);
+    obj2.name = 'hi';
+    console.log(obj.name);//hello
+
+    function copy(obj){
+        var result = {};
+        for (var attr in obj){//attr就是源对象的属性
+            result[attr] = obj[attr];//obj[attr]就是属性值
+        }
+    }
+
+//    深拷贝
+    var obj = {name:{age:30}};
+    var obj2 = copy(obj);
+    obj2.name.age = 20;
+    console.log(obj.name.age);//30
+
+    function copy(obj){
+        var result = {};
+        for (var attr in obj){//attr就是源对象的属性
+            if(typeof obj[attr] == 'object'){//判断属性值是否为对象
+                result[attr] = copy(obj[attr]);//进行递归来完成深拷贝
+            }else {
+                result[attr] = obj[attr];
+            }
+        }
+    }
+
+//    理解原型链
+        function Foo(name){
+        this.name = name;//第一行
+    }
+    Foo.prototype.name = 'hi';//第二行
+    Object.prototype.name = 'nihao';
+
+    var obj = new Foo('hello');
+    console.log(obj.name);//此时为hello,
+    // 如果注释第一行，会通过原型链找到第二行，结果为hi,
+    // 同理如果注释第二行，会通过原型链找到第三行，结果为nihao，
+    // 如果都没有结果就是undefined
+
+    var arr = [1,2,3];
+    Array.prototype.push = function(){
+//        this 现在指向123这个数组，而arguments对象找到456
+        for(var i=0;i<arguments.length;i++){
+            this[this.length] = arguments[i];
+            //arr[2] = arguments[0]=4
+        }
+        return this.length;
+    };
+    arr.push(4,5,6);
+    console.log(arr);//[1,2,3，4,5,6]
+
+
+    var str = 'hello';  //new string().
+    str.charAt(1);   //e
+//    charAt方法是通过基本类型的包装对象得到的
+
+    var obj = new String('    hello       ');
+    console.log('{'+obj.trim()+'}');//{hello}
+    //原型来写这个方法
+    String.prototype.trim = function(){
+        return this.replace(/^\s+|\s+$/g,'');//利用正则去掉空格
+    }
+
+
+    function Foo(){
+
+    }
+//    Foo.prototype.constructor = Foo;
+    Foo.prototype = {
+        showName:function(){},//对原型对象进行赋值，会改写constructor，
+        // 如果这样写，需要做以下修正
+
+        constructor:Foo//此时
+    };
+    var obj = new Foo();
+    console.log(obj.constructor);
+
+
+    function Foo(){}
+    function Bar(){}
+    Foo.prototype = Bar.prototype;
+    var obj = new Foo();
+
+    console.log(obj instanceof Bar);//true
+
+
+    function Foo(){
+        this.name = 'hello'
+    }
+    var obj = new Foo();
+    console.log('name' in obj);//属性一定要用引号，返回true
+    console.log('age' in obj);//返回false
+*/
+
+//    拷贝继承
+
+    function Foo(){//父类
+        this.name = 'hello';
+    }
+    Foo.prototype.showName = function(){
+        console.log(this.name);
+    };
+    function Bar(){//子类
+        Foo.call(this);//子类继承父类的属性。注意只是属性
+    }
+    Bar.prototype.showAge = function(){
+        console.log(this.age);
+    };
+    extend(Bar,Foo);//写了个方法来继承父类的方法
+//    function extend(subs,sups){
+//        for(var attr in sups.prototype){
+//            subs.prototype[attr] = sups.prototype[attr];
+//        }
+//    }
+
+    var obj1 = new Foo();var obj2 = new Bar();
+    console.log(obj1);
+    console.log(obj2);//此时他不仅继承父类的所有，而且还有新的属性age和showAge方法
+
+
+    function extend(subs,sups){
+        var F = function(){};
+        F.prototype = sups.prototype;
+        subs.prototype = new F();
+        subs.protype.constructor = subs;
+    }
+
+</script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+        var React = require('react');
+        var ReactDOM = require('react-dom');
+//        var ReactClass = React.createClass({
+//            render:function(){
+//                return React.createElement('h1',{
+//                    className:'header'
+//                },'React Component');
+//            }
+//        });
+//        var reactComponentElement = React.creatElement(ReactClass);
+//        var ReactComponent = ReactDOM.render(reactComponentElement,
+//                document.getElementById('react-application'));
+
+
+//        var ReactClass = React.createClass({
+//            render:function(){
+//                if(this.props.isHidden){
+//                    return null;
+//                }
+//                return React.createElement('h1',{
+//                    className:'header'
+//                },this.props.header);
+//            }
+//
+//        });
+
+//        var ReactClass = React.createClass({
+//            render:function(){
+//                if(this.props.isHidden){
+//                    return null;
+//                }
+//                var header = this.props.tweets.length + 'Latest Tweets';
+//                return React.createElement('h1',{
+//                    className:'header'},header);
+//            }
+//
+//        });
+//        var ReactClass = React.createClass(
+//                {
+//                    getInitialState:function(){
+//                        return{
+//                            isHidden:false
+//                        }
+//                    },
+//                    render:function(){
+//                        if(this.state.isHidden){
+//                        return null;
+//                        }
+//                        return React.createElement('h1',{
+//                            className:'header'
+//                        },'ReactComponent');
+//                }
+//
+//            }
+//        );
+
+        var ReactClass = React.createClass(
+                {
+                    getInitialState:function(){
+                        return{
+                            isHidden:false,
+                            title:'state react Component'
+                        }
+                    },
+                    handleClick:function(){
+                      this.setState({
+                          isHidden:!this.state.isHidden
+                      });
+                    },
+
+                    render:function(){
+                        var headerElement = React.createElement('h1',{
+                            className:'header',key:"header"
+                        },this.state.title);
+                        var buttonElement = React.createElement('button',{
+                            className:'button',onClick:this.handleClick,key:'button'
+                        },'点我切换标题状态');
+                        if(this.state.isHidden){
+                            return React.createElement('div',null,[buttonElement]);
+                        }
+                        return React.createElement('div',null,[buttonElement,headerElement]);
+                    }
+
+                }
+        );
+
+
+</script>
+</html>

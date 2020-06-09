@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+//    老版本的面向对象写法
+    function User(name,pass){
+        this.name = name;
+        this.pass = pass;
+    }
+    User.prototype.showName = function (){
+        alert(this.name);
+    };
+    User.prototype.showPass = function (){
+        alert(this.pass);
+    };
+    var u1 = new User('david','123456');
+    u1.showName();//david
+    u1.showPass();//123456
+    */
+//    新增关键字class
+    class User{
+        constructor(name,pass){
+            this.name = name;
+            this.pass = pass;
+        }
+        showName(){
+            alert(this.name);
+        }
+        showPass(){
+            alert(this.pass);
+        }
+    }
+    var u1 = new User('david','123456');
+    u1.showName();//david
+    u1.showPass();//123456
+
+</script>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+
+    /*//    数组
+     let [a,b,c] = [1,2,3];
+
+     console.log(a,b,c);//1 2 3
+     //    _json
+     let {a,c,d} = {a:12,c:5,d:18};
+
+     console.log(a,c,d);//12 5 18
+     //    组合式
+     let [{a,b},[n1,n2,n3],num,str] = [{a:12,b:6},[5,45,66],8,'hksjhd'];
+
+     console.log(a,b,n1,n3,n2,num,str);//12 6 5 66 45 8 'hksjhd'
+     //    简写式
+     let [json,arr,num,str] = [{a:12,b:6},[5,45,66],8,'hksjhd'];
+
+     console.log(json,arr,num,str);
+     */
+    /*
+     let [a,b] = [5,6];
+     console.log(a,b);//5 6
+
+     let [c,d];
+     [c,d]= [5,6];
+     console.log(c,d);//会报错，因为声明不能单声明，必须要赋值
+
+
+     let arr = [1,2,3];
+     let result = arr.map(function(item){
+     return item*2;
+     });
+
+     //let result = arr.map(item=>item*2);
+
+     alert(result);//1,4,9
+
+     */
+    /*
+     let score = [50,44,69,35,88,126];
+     let result = score.map(item => item>=60?'及格':'不及格');
+     console.log(result);//不及格，不及格，及格，不及格，及格，及格
+     */
+    /*
+     //    求平均数
+     let arr = [12,69,180,8763];
+     let result = arr.reduce(function(tmp,item,index){
+     if(index != arr.length-1){//不是最后一次
+     return tmp+item;
+     }else {
+     return (tmp+item)/arr.length;
+     }
+     });
+     console.log(result);//2256
+     */
+    /*
+     //    过滤掉不能被3整除的数字
+     let arr = [12,5,8,99,27,36,75];
+     let result = arr.filter(item=>{
+     if(item % 3 == 0){
+     return true;
+     }else {
+     return false;
+     }
+     });
+     console.log(result);//12,99,27,36,75
+
+     //    简写方式1
+     let result = arr.filter(item=>{
+     return item % 3;
+     });
+     //    简写方式2
+     let result = arr.filter(item=>item % 3;);
+
+     */
+    /*
+     //json来过滤
+     let arr = [
+     {title:'女士衬衫',price:75},
+     {title:'女士公文包',price:12563},
+     {title:'男士衬衫',price:666},
+     {title:'女士裤子',price:89654}
+     ];
+     let result = arr.filter(json=>json.price>=10000);
+     console.log(result)//会返回一个json数组，包含arr[1]和arr[3]
+
+
+     let arr = [12,5,8,99,27,36,75];
+     let result = arr.forEach((index,item)=>{
+     alert(index+'~~~~~'+item);//会依次打出0~~~~~12;1~~~~~5,2~~~~~8,....
+     })
+
+     //    ``此符号为反单引号
+     let a = 12;
+     let str = `a${a}bc`;
+     console.log(str);//a12bc
+     */
+
+
+
+
+
+</script>
+</html>

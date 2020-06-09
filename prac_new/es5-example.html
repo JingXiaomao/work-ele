@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+</head>
+<style>
+    #div1{width:100px;height: 100px;background-color: red;position: absolute}
+    #div2{width:100px;height: 100px;background-color: yellow;position: absolute;cursor: pointer}
+</style>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+</body>
+<script>
+    function Drag(id){
+        this.disX = 0;
+        this.disY = 0;
+        this.elem = document.getElementById(id);
+    }
+    Drag.prototype.init = function(){
+        var This = this;
+        this.elem.onmousedown = function(ev){
+            This.fnDown(ev);
+            document.onmousemove = function(ev){
+                This.fnMove(ev);
+            };
+            document.onmouseup = function(){
+                This.fnUp();
+            };
+            return false;//防止默认行为
+
+        };
+    };
+    Drag.prototype.fnDown = function(ev){//鼠标按下
+        this.disX = ev.pageX - this.elem.offsetLeft;
+        this.disY = ev.pageY - this.elem.offsetTop;
+
+    };
+    Drag.prototype.fnMove = function(ev){//鼠标移动
+        this.elem.style.left = ev.pageX - this.disX + 'px';
+        this.elem.style.top = ev.pageY - this.disY + 'px';
+    };
+    Drag.prototype.fnUp = function(ev){//鼠标抬起
+        document.onmousemove = null;
+        document.onmouseup = null;
+    };
+
+    var d1 = new Drag("div1");
+    d1.init();
+
+    function childDrag(id){//子类继承父类所有属性
+        Drag.call(this,id)
+    }
+    extend(childDrag,Drag);
+    function extend(subs,sups){
+        for(var attr in sups.prototype){
+            subs.prototype[attr] = sups.prototype[attr];
+        }
+    }
+
+//    对象的多态性---让它在可视范围内拖拽
+    childDrag.prototype.fnMove = function(ev){
+        var L = ev.pageX - this.disX;
+        var T = ev.pageY - this.disY;
+        if(L < 0){
+            L = 0;
+        }else if(L > window.innerWidth-this.elem.offsetWidth){
+            L = window.innerWidth-this.elem.offsetWidth;
+        }
+        if(T < 0){
+            T = 0;
+        }else if(T > window.innerHeight-this.elem.offsetHeight){
+            T = window.innerHeight-this.elem.offsetHeight;
+        }
+        this.elem.style.left = L + 'px';
+        this.elem.style.top = T + 'px';
+    };
+
+    var d2 = new childDrag("div2");
+    d2.init();
+
+
+
+
+
+</script>
+</html>
