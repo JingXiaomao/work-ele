@@ -61,19 +61,31 @@
       <!--  查看弹窗-->
 
       <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+
+        <el-form ref="infoForm" :model="infoForm" :rules="rules" label-width="120px">
+          <el-form-item label="活动名称" prop="a_title">
+            <el-input v-model="infoForm._name"></el-input>
           </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-input v-model="form.title" autocomplete="off"></el-input>
+
+          <el-form-item label="活动区域" prop="a_source">
+            <el-input v-model="infoForm._area"></el-input>
           </el-form-item>
-          <el-form-item label="即时配送">
-            <el-switch v-model="form.isChecked"></el-switch>
+
+          <el-form-item label="即时配送" prop="isChecked">
+            <el-switch v-model="infoForm._isChecked"></el-switch>
           </el-form-item>
-          <el-form-item label="富文本" :label-width="formLabelWidth">
-            <el-input v-model="form.title" autocomplete="off"></el-input>
+          <!--使用编辑器
+          -->
+          <el-form-item label="详细">
+            <div class="edit_container">
+              <quill-editor v-model="infoForm._content"
+                            ref="myQuillEditor"
+                            class="editer"
+                            :options="editorOption" @ready="onEditorReady($event)">
+              </quill-editor>
+            </div>
           </el-form-item>
+
           <el-form-item label="上传" :label-width="formLabelWidth">
 
             <el-upload
@@ -87,11 +99,12 @@
             </el-upload>
 
           </el-form-item>
-
         </el-form>
+
+
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="onSubmit,dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -100,10 +113,51 @@
 </template>
 
 <script>
+  // import UE from "./UE";
+  import { quillEditor } from 'vue-quill-editor' //调用编辑器
     export default {
       name: "Table",
+      components:{
+        quillEditor
+      },
 
       methods: {
+        onEditorReady(editor) {
+        },
+        onSubmit() {
+          //提交
+//this.$refs.infoForm.validate，这是表单验证
+          this.$refs.infoForm.validate((valid) => {
+            // if(valid) {
+            //   this.$post('m/add/about/us',this.infoForm).then(res => {
+            //     if(res.errCode == 200) {
+            //       this.$message({
+            //         message: res.errMsg,
+            //         type: 'success'
+            //       });
+            //       this.$router.push('/aboutus/aboutlist');
+            //     } else {
+            //       this.$message({
+            //         message: res.errMsg,
+            //         type:'error'
+            //       });
+            //     }
+            //   });
+            // }
+          });
+        }
+,
+
+
+
+
+
+
+
+
+
+
+
         handleClick(row) {
           console.log(row);
         },
@@ -120,6 +174,7 @@
         },
         // =======================
         handleAvatarSuccess(res, file) {
+          console.log(file)
           this.imageUrl = URL.createObjectURL(file.raw);
         },
         beforeAvatarUpload(file) {
@@ -172,17 +227,38 @@
             address: '上海市普陀区金沙江路 1516 弄',
             zip: 200333
           }],
-          form: {
-            name: '',
-            title: '',
-            isChecked: false,
-            type: [],
-            resource: '',
-            desc: ''
+          infoForm: {
+            _name: '',
+            _area: '',
+            _isChecked: false,
+            _content:'',
+            editorOption: {}
           },
-          formLabelWidth: '120px'
+          formLabelWidth: '120px',
+
+          //表单验证
+          rules: {
+            a_title: [
+              {required: true, message: '请输入标题', trigger: 'blur'}
+            ],
+            a_content: [
+              {required: true, message: '请输入详细内容', trigger: 'blur'}
+            ]
+          },
         }
-      }
+      },
+
+
+
+      computed: {
+        editor() {
+          return this.$refs.myQuillEditor.quill
+        }
+      },
+      mounted() {
+        //初始化
+      },
+
     }
 </script>
 
