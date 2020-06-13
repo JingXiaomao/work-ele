@@ -26,6 +26,12 @@
           width="120">
         </el-table-column>
         <el-table-column
+          prop="city"
+          label="市区"
+          width="120"
+          :class="dataShow[date]">
+        </el-table-column>
+        <el-table-column
           prop="address"
           label="地址"
           width="300">
@@ -100,6 +106,7 @@
 
           </el-form-item>
         </el-form>
+
 
 
         <div slot="footer" class="dialog-footer">
@@ -195,6 +202,11 @@
       },
       data() {
         return {
+          dataShow:{
+            "2016-05-02":"是",
+            "2016-05-01":"否"
+          },
+
           dialogVisible: false,
           dialogFormVisible: false,
           imageUrl: '',
@@ -257,6 +269,10 @@
       },
       mounted() {
         //初始化
+
+
+
+
       },
 
     }
